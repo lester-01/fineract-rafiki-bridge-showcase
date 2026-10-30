@@ -1,0 +1,15 @@
+#!/usr/bin/env bash
+set -euo pipefail
+msg_file="${1:-}"
+[ -n "$msg_file" ] || exit 0
+if grep -Eiq 'cursoragent@cursor\.com|^[[:space:]]*Made-with:[[:space:]]*Cursor|^[[:space:]]*Made with Cursor' "$msg_file"; then
+  tmp="$(mktemp)"
+  grep -Eiv \
+    -e '^[[:space:]]*Co-authored-by:[[:space:]].*cursoragent@cursor\.com' \
+    -e '^[[:space:]]*Co-authored-by:[[:space:]].*<[^>]*cursor[^>]*>' \
+    -e '^[[:space:]]*Made-with:[[:space:]]*Cursor' \
+    -e '^[[:space:]]*Made with Cursor' \
+    "$msg_file" > "$tmp" || true
+  awk 'NF{p=1} p{lines[++n]=$0} END{while(n>0 && lines[n]~/^[[:space:]]*$/) n--; for(i=1;i<=n;i++) print lines[i]; if(n>0) print ""}' "$tmp" > "$msg_file"
+  rm -f "$tmp"
+fi

@@ -1,0 +1,26 @@
+#!/usr/bin/env bash
+# Strip Cursor / agent attribution trailers that some environments inject.
+set -euo pipefail
+msg_file="${1:-}"
+[ -n "$msg_file" ] || exit 0
+[ -f "$msg_file" ] || exit 0
+tmp="$(mktemp)"
+# Drop Co-authored-by / Made-with / Signed-off lines that mention Cursor agent
+grep -Eiv \
+  -e '^[[:space:]]*Co-authored-by:[[:space:]].*cursoragent@cursor\.com' \
+  -e '^[[:space:]]*Co-authored-by:[[:space:]].*<[^>]*cursor[^>]*>' \
+  -e '^[[:space:]]*Made-with:[[:space:]]*Cursor' \
+  -e '^[[:space:]]*Made with Cursor' \
+  "$msg_file" > "$tmp" || true
+# Also collapse trailing blank lines left behind
+awk '
+  { lines[NR]=$0 }
+  END {
+    end=NR
+    while (end>0 && lines[end] ~ /^[[:space:]]*$/) end--
+    for (i=1;i<=end;i++) print lines[i]
+    if (end>0) print ""
+  }
+' "$tmp" > "$msg_file"
+rm -f "$tmp"
+
