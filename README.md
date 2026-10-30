@@ -2,24 +2,18 @@
 
 **[Open the case study → fineract-rafiki.benlester.me](https://fineract-rafiki.benlester.me)**
 
-A TypeScript bridge that lets **Apache Fineract** savings banks act as Account Servicing Entities behind **Rafiki** (Interledger / Open Payments). Fineract stays the ledger of record. Rafiki moves the payment.
+The bridge between core banking and Open Payments. This case study shows a money-safe integration layer for an Account Servicing Entity: the bank keeps its own ledger while customers send and receive through Open Payments and Interledger.
 
-## Why it matters
+## What it demonstrates
 
-Core banking and Open Payments speak different languages. This bridge is the ASE glue:
+- **ASE ↔ payment-node bridge** — holds before liquidity, signed webhooks, idempotent audit
+- **Swappable ledger adapter** — Apache Fineract savings is the demo ASE; the same money rules apply when another core system is wired in
+- **Domestic and cross-border class of problem** — peered Rafiki instances and Open Payments paths; this demo runs single-currency USD across three banks and two Rafiki nodes
+- **Engineering gates** — CI, 151 unit tests, Bruno live collections, containerized three-bank proof
 
-- **Hold before liquidity** — `availableBalance` → hold → fund outgoing payment (never debit on `accountBalance` alone)
-- **Quote-then-pay** — Admin GraphQL initiation without a mid-quote pause
-- **Signed webhooks** — `Rafiki-Signature` over timestamp + RFC 8785 canonical JSON, with idempotent handlers
-- **LedgerAdapter** — flows depend on an interface; Fineract savings is implementation #1
+## Live demo
 
-## Proof
-
-- **Three banks · two Rafiki nodes** — intra-bank, same-Rafiki cross-bank, and cross-Rafiki transfers
-- **Money journey** — follow one $15 cross-instance payment through the send UI, both Rafiki Admins, and both Mifos ledgers (screenshots on the site)
-- **Engineering gates** — CI (lint · typecheck · Vitest), **151** unit tests including idempotency, Bruno live API collections, containerized demo network, `business-test` matrix
-
-Sandbox demo is available **on demand** (the playground is resource-heavy). The case study leads with recorded proof.
+The sandbox is available **on request** (it is resource-heavy). Prefer a walkthrough over a static page? Email [contact@benlester.me](mailto:contact@benlester.me?subject=Live%20demo%20%E2%80%94%20Fineract%E2%80%93Rafiki%20bridge).
 
 ## Links
 
