@@ -3,9 +3,9 @@
   "status": "idea",
   "tags": [],
   "public": {
-    "listed": false,
-    "featured": false,
-    "rank": 2200,
-    "website": null
+    "listed": true,
+    "featured": true,
+    "rank": 1200,
+    "website": "https://fineract-rafiki.benlester.me"
   }
 }
