@@ -1,13 +1,20 @@
 {
   "schema_version": 1,
-  "status": "idea",
-  "tags": [],
-  "languages": null,
+  "status": "live",
+  "tags": [
+    "fineract",
+    "rafiki",
+    "payments",
+    "case-study"
+  ],
+  "languages": [
+    "Shell"
+  ],
   "public": {
-    "listed": false,
-    "featured": false,
-    "rank": 2200,
-    "website": null
+    "listed": true,
+    "featured": true,
+    "rank": 1200,
+    "website": "https://fineract-rafiki.benlester.me"
   },
   "reviewed_at": "2026-11-03"
 }
